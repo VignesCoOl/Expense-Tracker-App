@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expense App!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container" style="background-color: #ec407a;padding: 30px;">
+            <h1 align="center" class="title" style="text-transform: uppercase;color: cornsilk;">
+               Expense Tracker App!
+            </h1>
+        </div>
+        <hr>
+        <div class="columns">
+            <div class="column">
+                <div class="container">
+                    <h2 class="title">
+                        Income/Investment!
+                    </h2>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input class="input is-success" type="number" placeholder="Enter Amount!" id="money">
+                        </div>
+                        <div class="control">
+                            <button class="button is-success" onclick="addIncome()">
+                                Add Income!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="container">
+                    <h2 class="title">
+                        Expenses!
+                    </h2>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <label style="padding: 5px;" class="label is-success">
+                                Enter Description:
+                            </label>
+                        </div>
+                        <div class="control">
+                            <input class="input is-danger" type="text" placeholder="Enter Description!"
+                                id="expenseName">
+                        </div>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input class="input is-danger" type="number" placeholder="Expense Amount!"
+                                id="expenseAmount">
+                        </div>
+                        <div class="control">
+                            <button class="button is-danger" onclick="addExpense()">
+                                Add Expense!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <h2 class="title">
+                    Total Income: <span class="has-text-primary" id="totalIncome">0</span>
+                </h2>
+                <h2 class="title" >
+                    Balance Amount: <span class="has-text-danger" id="currentBalance">0</span>
+                </h2>
+                <div>
+                    <div>
+                        <h2 class="title">Added Expenses:</h2>
+                    </div>
+                    <div class="is-size-5" class="has-text-weight-medium" id="addedExpenses"></div><hr>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Programming :P-->
+<script>
+    function addIncome(){
+        var totalIncome = parseInt(document.getElementById("totalIncome").innerHTML);
+        var currentBalance = parseInt(document.getElementById("currentBalance").innerHTML);
+        var money = parseInt(document.getElementById("money").value);
+        if(money=="" || isNaN(money)){
+            alert("Please Enter Positive Income");
+        }
+        else{
+            totalIncome = totalIncome+money;
+            currentBalance= currentBalance+money;
+            document.getElementById("totalIncome").innerHTML = totalIncome;
+            document.getElementById("currentBalance").innerHTML = currentBalance;
+        }
+    }
+    function addExpense(){
+        var currentBalance = parseInt(document.getElementById("currentBalance").innerHTML);
+        var expenseName = document.getElementById("expenseName").value;
+        var expenseAmount = parseInt(document.getElementById("expenseAmount").value);
+        if(expenseName.length ==""){
+            alert("Please Enter Expense Name");
+        }
+        else if(expenseAmount=="" || isNaN(expenseAmount)){
+            alert("Please Enter Expense Amount")
+        }
+        else if(expenseAmount <= currentBalance){
+            currentBalance = currentBalance - expenseAmount;
+            document.getElementById("currentBalance").innerHTML = currentBalance;
+            var p = document.createElement("p");
+            p.innerHTML = "Expense Name: " +expenseName +"<br>" +"Expense Amount:" +expenseAmount;
+            document.getElementById("addedExpenses").appendChild(p);
+        }
+        else{
+            alert("Added Expense Amount is higher than your current Balance!")
+        }
+    }
+</script>
+</body>
+</html>
