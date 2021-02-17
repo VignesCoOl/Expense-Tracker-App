@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="icon" href="favicon.png" type="image/png">
 </head>
-<body>
+<body onload="loadData()">
     <section class="section">
         <div class="container" style="background-color: #ec407a;padding: 30px;">
             <h1 align="center" class="title" style="text-transform: uppercase;color: cornsilk;">
@@ -111,7 +111,7 @@
             document.getElementById("addedExpenses").appendChild(p);
         }
         else{
-            alert("Added Expense Amount is higher than your current Balance!")
+            alert("Added Expense Amount is higher than your current Balance!");
         }
     }
 </script>
