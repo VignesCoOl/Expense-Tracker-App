@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="icon" href="favicon.png" type="image/png">
 </head>
+
 <body onload="loadData()">
     <section class="section">
         <div class="container" style="background-color: #ec407a;padding: 30px;">
@@ -65,62 +67,75 @@
                 <h2 class="title">
                     Total Income: <span class="has-text-primary" id="totalIncome">0</span>
                 </h2>
-                <h2 class="title" >
+                <h2 class="title">
                     Balance Amount: <span class="has-text-danger" id="currentBalance">0</span>
                 </h2>
                 <div>
                     <div>
                         <h2 class="title">Added Expenses:</h2>
                     </div>
-                    <div class="is-size-5" class="has-text-weight-medium" id="addedExpenses"></div><hr>
+                    <div class="is-size-5" class="has-text-weight-medium" id="addedExpenses"></div>
+                    <hr>
                 </div>
             </div>
         </div>
     </section>
     <!--Programming :P-->
-<script>
-    function addIncome(){
-        var totalIncome = parseInt(document.getElementById("totalIncome").innerHTML);
-        var currentBalance = parseInt(document.getElementById("currentBalance").innerHTML);
-        var money = parseInt(document.getElementById("money").value);
-        if(money=="" || isNaN(money)){
-            alert("Please Enter Positive Income");
+    <script>
+        function addIncome() {
+            var totalIncome = parseInt(document.getElementById("totalIncome").innerHTML);
+            var currentBalance = parseInt(document.getElementById("currentBalance").innerHTML);
+            var money = parseInt(document.getElementById("money").value);
+            if (money == "" || isNaN(money)) {
+                alert("Please Enter Positive Income");
+            }
+            else {
+                totalIncome = totalIncome + money;
+                currentBalance = currentBalance + money;
+                document.getElementById("totalIncome").innerHTML = totalIncome;
+                document.getElementById("currentBalance").innerHTML = currentBalance;
+            }
+            //localStorage
+            var list = {totalIncome, currentBalance};
+            var list = JSON.stringify(list);
+            localStorage.setItem("ti", list);
         }
-        else{
-            totalIncome = totalIncome+money;
-            currentBalance= currentBalance+money;
-            document.getElementById("totalIncome").innerHTML = totalIncome;
-            document.getElementById("currentBalance").innerHTML = currentBalance;
+        function loadData() {
+            var a = localStorage.getItem("ti");
+            if (a) {
+                list = JSON.parse(a);
+            }
         }
-    }
-    function addExpense(){
-        var currentBalance = parseInt(document.getElementById("currentBalance").innerHTML);
-        var expenseName = document.getElementById("expenseName").value;
-        var expenseAmount = parseInt(document.getElementById("expenseAmount").value);
-        if(expenseName.length ==""){
-            alert("Please Enter Expense Name");
+        function addExpense() {
+            var currentBalance = parseInt(document.getElementById("currentBalance").innerHTML);
+            var expenseName = document.getElementById("expenseName").value;
+            var expenseAmount = parseInt(document.getElementById("expenseAmount").value);
+            if (expenseName.length == "") {
+                alert("Please Enter Expense Name");
+            }
+            else if (expenseAmount == "" || isNaN(expenseAmount)) {
+                alert("Please Enter Expense Amount")
+            }
+            else if (expenseAmount <= currentBalance) {
+                currentBalance = currentBalance - expenseAmount;
+                document.getElementById("currentBalance").innerHTML = currentBalance;
+                var p = document.createElement("p");
+                p.innerHTML = "Expense Name: " + expenseName + "<br>" + "Expense Amount: " + expenseAmount;
+                document.getElementById("addedExpenses").appendChild(p);
+            }
+            else {
+                alert("Added Expense Amount is higher than your current Balance!");
+            }
         }
-        else if(expenseAmount=="" || isNaN(expenseAmount)){
-            alert("Please Enter Expense Amount")
-        }
-        else if(expenseAmount <= currentBalance){
-            currentBalance = currentBalance - expenseAmount;
-            document.getElementById("currentBalance").innerHTML = currentBalance;
-            var p = document.createElement("p");
-            p.innerHTML = "Expense Name: " +expenseName +"<br>" +"Expense Amount: " +expenseAmount;
-            document.getElementById("addedExpenses").appendChild(p);
-        }
-        else{
-            alert("Added Expense Amount is higher than your current Balance!");
-        }
-    }
-</script>
-<footer class="footer">
-    <div class="content has-text-centered">
-      <p>
-        <strong>&copy; Expense Tracker App!</strong> 2021. <a href="https://github.com/VignesCoOl/Expense-Tracker-App">GitHub.</a>
-      </p>
-    </div>
-  </footer>
+    </script>
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>&copy; Expense Tracker App!</strong> 2021. <a
+                    href="https://github.com/VignesCoOl/Expense-Tracker-App">GitHub.</a>
+            </p>
+        </div>
+    </footer>
 </body>
+
 </html>
